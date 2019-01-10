@@ -81,7 +81,7 @@ centos7默认启用firewall和selinux进行安全策略配置。如果要关闭�
 
   - 查看selinux状态  `getenforce`
   - 临时关闭：`setenforce 0`
-  - 永久关闭：编辑`/etc/sysconfig/selinux`，将其中的`SELINUX=enforcing`修改为`SELINUX=disabled`，重启后生效（也可执行`setenforce 0`暂时关闭）。
+  - 永久关闭：编辑`/etc/selinux/config`，将其中的`SELINUX=enforcing`修改为`SELINUX=disabled`，重启后生效。
 
 # 自启动管理
 
@@ -135,21 +135,23 @@ yum remove gnome-initial-setup
 
   ```shell
   systemctl stop postfix
-  yum remove postfix
+  yum remove postfix -y
   ```
 
-- avahi
+- avahi（慎选）
 
   > Avahi允许程序在不需要进行手动网络配置的情况下，在一个本地网络中发布和获知各种服务和主机。
   >
   > 以在没有 [DNS](http://www.baike.com/sowiki/DNS?prd=content_doc_search) 服务的局域网里发现基于 zeroconf 协议的设备和服务。
 
-  如不需要该服务，可停止，一般不建议删除——**删除avahi守护程序可能会使系统没有任何网络连接**。
+  如不需要该服务，可停止，**不建议删除**——**删除avahi守护程序可能会使系统没有任何网络连接**。
 
   ```shell
   systemctl stop avahi-daemon.socket avahi-daemon.service
   systemctl disable avahi-daemon.socket avahi-daemon.service
   ```
+
+- arbt-cli 自动错误汇报
 
 - chrony 时间同时服务
 
